@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template
 from service import db
 from service.models.model import Relationships
-from service.views.forms import InputForm
+from service.models.forms import InputForm
 from pytrends.request import TrendReq
 
 relationship_blueprint = Blueprint('relationship',__name__, template_folder='templates')
@@ -26,10 +26,10 @@ def find_relation():
 
     kw_list = [input_one, input_two]
 
-    pytrend.build_payload([kw_list[0]], timeframe='today 12-m', geo='', gprop='')
+    pytrend.build_payload([kw_list[0]], geo='', gprop='')
     df = pytrend.interest_over_time()
 
-    pytrend.build_payload([kw_list[1]], timeframe='today 12-m', geo='', gprop='')
+    pytrend.build_payload([kw_list[1]], geo='', gprop='')
     df1 = pytrend.interest_over_time()
 
     correlation = "{:.5f}".format(df[kw_list[0]].corr(df1[kw_list[1]]))
