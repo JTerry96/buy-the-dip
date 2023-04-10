@@ -15,13 +15,10 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'da
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 
-# created database
 db = SQLAlchemy(app)
-# abilities to migrate that db
 Migrate(app,db)
 
-db.create_all()
-db.session.commit()
+from service.schemas import stock
 
 from service.views.stock import stock_blueprint
 

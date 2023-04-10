@@ -1,15 +1,10 @@
-""""""
-from service import db
+"""Stock model"""
+from sqlalchemy import Column, Integer, Boolean
+import datetime
 
-class Stock(db.Model):
-
-    __tablename__ = 'stock'
-
-    id = db.Column(db.Integer,primary_key=True)
-    ticker = db.Column(db.Text)
-    current_price = db.Column(db.Float)
-    last_low = db.Column(db.Integer)
-
-
-db.create_all()
-db.session.commit()
+class Stock():
+    """Stock model"""
+    id: int
+    ticker: str
+    current_price: float
+    last_low: datetime.date
