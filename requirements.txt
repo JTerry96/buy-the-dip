@@ -24,3 +24,5 @@ SQLAlchemy==1.4.45
 urllib3==1.26.13
 Werkzeug==2.2.2
 WTForms==3.0.1
+
+yfinance

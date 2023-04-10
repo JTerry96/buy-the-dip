@@ -26,10 +26,10 @@ def find_relation():
 
     kw_list = [input_one, input_two]
 
-    pytrend.build_payload([kw_list[0]], geo='', gprop='')
+    pytrend.build_payload([kw_list[0]], timeframe='today 12-m', geo='', gprop='')
     df = pytrend.interest_over_time()
 
-    pytrend.build_payload([kw_list[1]], geo='', gprop='')
+    pytrend.build_payload([kw_list[1]], timeframe='today 12-m', geo='', gprop='')
     df1 = pytrend.interest_over_time()
 
     correlation = "{:.5f}".format(df[kw_list[0]].corr(df1[kw_list[1]]))

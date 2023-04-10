@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class = 'jumbotron'> 
+
+      <h3> Get stock price here. </h3>
+
+      <form method = "POST">
+
+          {{form.hidden_tag()}}
+          <br>
+          {{form.input_one.label}} {{form.input_one}}
+          <br>
+          {{form.input_two.label}} {{form.input_two}}
+          <br>
+          {{form.submit()}}
+
+      </form>
+
+    </div>
+
+{% endblock %}

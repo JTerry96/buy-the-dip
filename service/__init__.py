@@ -23,6 +23,6 @@ Migrate(app,db)
 db.create_all()
 db.session.commit()
 
-from service.views.content import relationship_blueprint
+from service.views.stock import stock_blueprint
 
-app.register_blueprint(relationship_blueprint, url_prefix='')
+app.register_blueprint(stock_blueprint, url_prefix='')
