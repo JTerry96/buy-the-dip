@@ -9,3 +9,4 @@ class Stock(db.Model):
     ticker = db.Column(db.String(50))
     current_price = db.Column(db.Float)
     last_low = db.Column(db.Date)
+    
