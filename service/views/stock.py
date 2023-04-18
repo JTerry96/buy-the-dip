@@ -16,16 +16,15 @@ stock_blueprint = Blueprint(
 def get_stock_price():
     """Get stock price"""
     form = InputForm()
+    stock = get_stock_service()
+    data = stock.get_data()
 
     if form.validate_on_submit():
-
         ticker = form.input_one.data
         period = form.input_two.data
 
-        stock = get_stock_service(ticker=ticker, period=period)
-        data = stock.display_last_low()
+        stock.add_ticker(ticker=ticker, period=period)
 
-        print (data)
-    
-    return render_template("stock.html", form=form)
+        data = stock.get_data()
+    return render_template("stock.html", form=form, data=data)
 
