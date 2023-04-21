@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, flash
 from service import db
 from service.models.forms import InputForm
 
@@ -20,11 +20,13 @@ def get_stock_price():
     data = stock.get_data()
 
     if form.validate_on_submit():
-        ticker = form.input_one.data
-        period = form.input_two.data
+        try:
+            ticker = form.input_one.data
+            stock.add_ticker(ticker=ticker)
+            data = stock.get_data()
 
-        stock.add_ticker(ticker=ticker, period=period)
-
-        data = stock.get_data()
+        except Exception as error:
+            flash(f"Error: {error}", "danger")
+            return render_template("stock.html", form=form, data=data)
     return render_template("stock.html", form=form, data=data)
 

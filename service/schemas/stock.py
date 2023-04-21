@@ -8,5 +8,6 @@ class Stock(db.Model):
     id = db.Column(db.Integer,primary_key=True)
     ticker = db.Column(db.String(50))
     current_price = db.Column(db.Float)
-    last_low = db.Column(db.Date)
+    last_low = db.Column(db.Interval)
+
     

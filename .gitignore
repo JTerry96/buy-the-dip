@@ -1,6 +1,6 @@
-btdvenv/
+venv/
 __pycache__/
 *.pyc
 .vscode/*
 .DS_Store
-migrations/
+.sqlite

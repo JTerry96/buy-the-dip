@@ -4,6 +4,8 @@ import datetime
 
 class Stock():
     """Stock model"""
+    PERIOD = '10y'
+
     id: int
     ticker: str
     current_price: float

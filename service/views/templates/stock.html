@@ -2,25 +2,26 @@
 
 {% block content %}
 
-    <div class = 'jumbotron'> 
-
-      <h3> Get stock price here. </h3>
-
-      <form method = "POST">
-
-          {{form.hidden_tag()}}
-          <br>
-          {{form.input_one.label}} {{form.input_one}}
-          <br>
-          {{form.input_two.label}} {{form.input_two}}
-          <br>
-          {{form.submit()}}
-
-      </form>
-
+  <div>
+    <div class="container my-container w-25">
+        <h3>Add Stock</h3>
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        {{ form.input_one.label }}
+                        <br>
+                        {{ form.input_one(class="form-control") }}
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Add</button>
+        </form>
     </div>
-
-    <table>
+  </div>
+  <div class="container w-50">
+    <table class="table table-borderless my-table table-sm">
         <thead>
             <tr>
                 <th>Ticker</th>
@@ -38,7 +39,5 @@
             {% endfor %}
         </tbody>
     </table>
-
-
-
+  </div>
 {% endblock %}

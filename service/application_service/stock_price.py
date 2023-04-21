@@ -2,7 +2,9 @@
 import yfinance as yahooFinance
 from datetime import datetime, timedelta
 from service.schemas.stock import Stock
-from service.repos import get_stock_repo, Stock as StockRepo
+from service.repos import Stock as StockRepo
+from service.exceptions import ServiceException
+from service.models.stock import Stock as StockModel
 
 class StockPrice():
     """Application service to retrieve stock price"""
@@ -13,19 +15,20 @@ class StockPrice():
         """Initialize stock price service"""
         self._stock_repo = stock_repo
 
-    def add_ticker(self, ticker: str, period: str) -> None:
+    def add_ticker(self, ticker: str) -> None:
         """Add ticker to database"""
-        stock = self._analyse_data(ticker=ticker, period=period)
+        stock = self._analyse_data(ticker=ticker)
         self._stock_repo.add(stock)
         self._stock_repo.commit()
 
-    def _analyse_data(self, ticker: str, period: str,) -> Stock:
+    def _analyse_data(self, ticker: str) -> Stock:
         """Analyse stock price data and return a dataset including the last
         low date.
 
         Returns:
+            Stock: Stock Model
         """
-        data = self._get_price(ticker=ticker, period=period)
+        data = self._get_price(ticker=ticker)
         data['DateTime'] = data.index
 
         data = data.to_dict('records')
@@ -40,7 +43,7 @@ class StockPrice():
                 point['Close'],
                 last_low_price
             ):
-                last_low_date = point['DateTime']
+                last_low_date = data[-1]['DateTime']-point['DateTime']
                 last_low_price = point['Close']
         
         return Stock(
@@ -49,12 +52,18 @@ class StockPrice():
             last_low=last_low_date
         )
 
-    def _get_price(self, ticker: str, period: str,):
+    def _get_price(self, ticker: str):
         """Retrieve stock price from Yahoo Finance"""
         data = yahooFinance.Ticker(
             ticker=ticker
         )
-        return data.history(period=period)
+
+        data = data.history(period=StockModel.PERIOD)
+        if len(data) == 0:
+            raise ServiceException(
+                "Could not retrieve data from Yahoo Finance."
+            )
+        return data
 
     def _is_between(
         self,
