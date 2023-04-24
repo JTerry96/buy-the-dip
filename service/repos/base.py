@@ -13,6 +13,10 @@ class BaseRepository():
         """Add a model to the database."""
         self._db.session.add(model)
 
+    def update(self, model):
+        """Update a model in the database."""
+        self._db.session.merge(model)
+
     def delete(self, model):
         """Delete a model from the database."""
         self._db.session.delete(model)

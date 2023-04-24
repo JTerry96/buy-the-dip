@@ -27,6 +27,7 @@
                 <th>Ticker</th>
                 <th>Current Price</th>
                 <th>Last Low</th>
+                <th>Time since</th>
             </tr>
         </thead>
         <tbody>
@@ -35,6 +36,7 @@
                 <td>{{ stock.ticker }}</td>
                 <td>{{ stock.current_price }}</td>
                 <td>{{ stock.last_low }}</td>
+                <td>{{ stock.time_since }}</td>
             </tr>
             {% endfor %}
         </tbody>

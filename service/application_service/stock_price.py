@@ -18,7 +18,12 @@ class StockPrice():
     def add_ticker(self, ticker: str) -> None:
         """Add ticker to database"""
         stock = self._analyse_data(ticker=ticker)
-        self._stock_repo.add(stock)
+
+        if stock_model:=self._check_exists(ticker=ticker):
+            self._stock_repo.update(stock_model)
+        else:
+            self._stock_repo.add(stock)
+
         self._stock_repo.commit()
 
     def _analyse_data(self, ticker: str) -> Stock:
@@ -33,7 +38,7 @@ class StockPrice():
 
         data = data.to_dict('records')
 
-        last_low_date = datetime.now() - timedelta(days=365)
+        time_since = datetime.now() - timedelta(days=365)
         last_low_price = 0
         current_price = data[-1]['Close']
 
@@ -43,13 +48,18 @@ class StockPrice():
                 point['Close'],
                 last_low_price
             ):
-                last_low_date = data[-1]['DateTime']-point['DateTime']
+                time_since = data[-1]['DateTime']-point['DateTime']
+                last_low = point['DateTime']
                 last_low_price = point['Close']
         
         return Stock(
             ticker=ticker,
-            current_price=current_price,
-            last_low=last_low_date
+            current_price=round(
+                number=current_price,
+                ndigits=2
+            ),
+            time_since=time_since,
+            last_low=last_low,
         )
 
     def _get_price(self, ticker: str):
@@ -76,7 +86,7 @@ class StockPrice():
         lower_bound = min(first_range_value, second_range_value)
         return lower_bound <= value <= upper_bound
 
-    def get_data(self):
+    def get_all(self):
         """Get stock price info from database"""
         stocks = self._stock_repo.get_all()
 
@@ -84,6 +94,11 @@ class StockPrice():
             {
                 'ticker': stock.ticker,
                 'current_price': stock.current_price,
-                'last_low': stock.last_low
+                'time_since': stock.time_since,
+                'last_low': stock.last_low,
             } for stock in stocks
         ]
+
+    def _check_exists(self, ticker: str):
+        """Check if ticker exists in database"""
+        return self._stock_repo.get_by_ticker(ticker=ticker)

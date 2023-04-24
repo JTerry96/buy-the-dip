@@ -8,11 +8,12 @@ class Stock(BaseRepository):
     _model = StockModel
     _schema = StockSchema
 
-    def get_by_ticker(self, ticker):
+    def get_by_ticker(self, ticker) -> StockSchema:
         """Get a stock by ticker"""
         return self._schema.query.filter_by(ticker=ticker).first()
-    
+
     def get_all(self):
         """Get all stocks"""
-        return self._schema.query.all()
+        return self._schema.query.order_by(self._schema.ticker.asc()).all()
+
 

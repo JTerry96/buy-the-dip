@@ -17,13 +17,13 @@ def get_stock_price():
     """Get stock price"""
     form = InputForm()
     stock = get_stock_service()
-    data = stock.get_data()
+    data = stock.get_all()
 
     if form.validate_on_submit():
         try:
-            ticker = form.input_one.data
+            ticker = form.input_one.data.upper()
             stock.add_ticker(ticker=ticker)
-            data = stock.get_data()
+            data = stock.get_all()
 
         except Exception as error:
             flash(f"Error: {error}", "danger")
