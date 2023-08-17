@@ -11,7 +11,9 @@ venv:
 	pip install -r requirements.txt
 
 migrate:
+	source venv/bin/activate && \
 	flask db migrate -m "add tables"
 
 upgrade:
+	source venv/bin/activate && \
 	flask db upgrade head

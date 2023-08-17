@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, flash
 from service import db
 from service.models.forms import InputForm
+from utilities.tasks import add_ticker_async
 
 from service.application_service import get_stock_service
 
@@ -10,7 +11,6 @@ stock_blueprint = Blueprint(
     __name__,
     template_folder='templates'
 )
-
 
 @stock_blueprint.route('/get-stock-price', methods = ['GET', 'POST'])
 def get_stock_price():
@@ -30,3 +30,8 @@ def get_stock_price():
             return render_template("stock.html", form=form, data=data)
     return render_template("stock.html", form=form, data=data)
 
+@stock_blueprint.route('/update/<string:ticker>', methods = ['GET', 'POST'])
+def update_stock_price(ticker):
+    """Get stock price"""
+    add_ticker_async(ticker=ticker)
+    return render_template("update.html")

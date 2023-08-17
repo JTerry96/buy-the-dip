@@ -18,7 +18,7 @@ PRE REQUISITS (You will need to have the following installed on your device.)
 
 SETUP
 
-1. Run 'make migrate' to create a migrations file.
-2. Run 'make upgrade' to migrate it.
-3. Run 'make install' to build the containers.
+1. Run 'make install' to build the containers.
+2. Run 'make migrate' to create a migrations file.
+3. Run 'make upgrade' to migrate it.
 4. Run 'make run' to run the project. (You should be able to access the project on http://127.0.0.1:80)
