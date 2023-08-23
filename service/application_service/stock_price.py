@@ -19,8 +19,9 @@ class StockPrice():
         """Add ticker to database"""
         stock = self._analyse_data(ticker=ticker)
 
-        if stock_model:=self._check_exists(ticker=ticker):
-            self._stock_repo.update(stock_model)
+        if stock_existing := self._check_exists(ticker=ticker):
+            self._stock_repo.delete(stock_existing)
+            self._stock_repo.add(stock)
         else:
             self._stock_repo.add(stock)
 
@@ -41,8 +42,9 @@ class StockPrice():
         time_since = datetime.now() - timedelta(days=365)
         last_low_price = 0
         current_price = data[-1]['Close']
+        all_time_high = max([point['Close'] for point in data])
 
-        for point in data[0:int(len(data)*0.9)]:
+        for point in data[0:int(len(data) - 10)]:
             if self._is_between(
                 current_price,
                 point['Close'],
@@ -60,6 +62,10 @@ class StockPrice():
             ),
             time_since=time_since,
             last_low=last_low,
+            percentage_of_ath=self._percentage_of_ath(
+                current_price=current_price,
+                all_time_high=all_time_high
+            )
         )
 
     def _get_price(self, ticker: str):
@@ -96,9 +102,14 @@ class StockPrice():
                 'current_price': stock.current_price,
                 'time_since': stock.time_since,
                 'last_low': stock.last_low,
+                'percentage_of_ath': stock.percentage_of_ath
             } for stock in stocks
         ]
 
     def _check_exists(self, ticker: str):
         """Check if ticker exists in database"""
         return self._stock_repo.get_by_ticker(ticker=ticker)
+
+    def _percentage_of_ath(self, current_price, all_time_high):
+        """Calculate percentage of all time high"""
+        return round(current_price / all_time_high * 100, 2)

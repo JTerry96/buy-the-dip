@@ -15,10 +15,15 @@ Well, with the latest in advanced tech and a bit of python you can say goodbye t
 PRE REQUISITS (You will need to have the following installed on your device.)
 
 1. Docker
+2. A postgres db instance.
 
 SETUP
 
 1. Run 'make install' to build the containers.
-2. Run 'make migrate' to create a migrations file.
-3. Run 'make upgrade' to migrate it.
-4. Run 'make run' to run the project. (You should be able to access the project on http://127.0.0.1:80)
+2. Add a .env file to the root directory with the postgres db credentials.
+    POSTGRES_URL = ""
+    POSTGRES_USER = ""
+    POSTGRES_PW = ""
+    POSTGRES_DB =  ""
+2. Run 'make upgrade' to run migrations.
+3. Run 'make run' to run the project. (You should be able to access the project on http://127.0.0.1:80)

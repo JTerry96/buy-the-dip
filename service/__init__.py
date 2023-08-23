@@ -2,26 +2,30 @@ import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-import psycopg2
+from dotenv import load_dotenv
+
+
 
 def get_env_variable(name):
     try:
+        print(os.getenv('THING'))
         return os.environ[name]
     except KeyError:
         message = "Expected environment variable '{}' not set.".format(name)
         raise Exception(message)
 
-# the values of those depend on your setup
-POSTGRES_URL=get_env_variable("POSTGRES_URL")
-POSTGRES_USER=get_env_variable("POSTGRES_USER")
-POSTGRES_PW=get_env_variable("POSTGRES_PW")
-POSTGRES_DB=get_env_variable("POSTGRES_DB")
-
 app = Flask(__name__)
+
+load_dotenv()
 
 app.app_context().push()
 
 app.config['SECRET_KEY'] = 'mysecretkey'
+
+POSTGRES_URL=get_env_variable("POSTGRES_URL")
+POSTGRES_USER=get_env_variable("POSTGRES_USER")
+POSTGRES_PW=get_env_variable("POSTGRES_PW")
+POSTGRES_DB=get_env_variable("POSTGRES_DB")
 
 DB_URL = 'postgresql+psycopg2://{user}:{pw}@{url}/{db}'.format(
     user=POSTGRES_USER,

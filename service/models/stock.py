@@ -10,3 +10,4 @@ class Stock():
     ticker: str
     current_price: float
     last_low: datetime.date
+    percentage_of_ath: float

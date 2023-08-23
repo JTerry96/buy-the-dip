@@ -28,6 +28,7 @@
                 <th>Current Price</th>
                 <th>Last Low</th>
                 <th>Time since</th>
+                <th>Percentage of ATH</th>
             </tr>
         </thead>
         <tbody>
@@ -37,6 +38,7 @@
                 <td>{{ stock.current_price }}</td>
                 <td>{{ stock.last_low }}</td>
                 <td>{{ stock.time_since }}</td>
+                <td>{{ stock.percentage_of_ath }}</td>
             </tr>
             {% endfor %}
         </tbody>

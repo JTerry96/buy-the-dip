@@ -10,3 +10,4 @@ class Stock(db.Model):
     current_price = db.Column(db.Float)
     last_low = db.Column(db.Date)
     time_since = db.Column(db.Interval)
+    percentage_of_ath = db.Column(db.Float)
