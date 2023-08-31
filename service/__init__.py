@@ -3,8 +3,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from dotenv import load_dotenv
-
-
+from flask_apscheduler import APScheduler
 
 def get_env_variable(name):
     try:
@@ -45,3 +44,16 @@ from service.schemas import stock
 from service.views.stock import stock_blueprint
 
 app.register_blueprint(stock_blueprint, url_prefix='')
+
+from service.views.stock import update_tickers
+
+scheduler = APScheduler()
+scheduler.add_job(
+    id = 'Scheduled task',
+    func = update_tickers,
+    trigger = 'cron',
+    hour='13',
+    minute='0'
+)
+
+scheduler.start()

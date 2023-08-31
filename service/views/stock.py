@@ -35,3 +35,10 @@ def update_stock_price(ticker):
     """Get stock price"""
     add_ticker_async(ticker=ticker)
     return render_template("update.html")
+
+
+@stock_blueprint.route('/update', methods = ['GET', 'POST'])
+def update_tickers():
+    """Update tickers"""
+    stock = get_stock_service()
+    stock.update_yfinance_ticker_data()

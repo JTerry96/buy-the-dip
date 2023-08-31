@@ -5,6 +5,7 @@ from service.schemas.stock import Stock
 from service.repos import Stock as StockRepo
 from service.exceptions import ServiceException
 from service.models.stock import Stock as StockModel
+import time
 
 class StockPrice():
     """Application service to retrieve stock price"""
@@ -14,6 +15,12 @@ class StockPrice():
     ):
         """Initialize stock price service"""
         self._stock_repo = stock_repo
+
+    def update_yfinance_ticker_data(self):
+        """Update yfinance ticker data"""
+        tickers = self._stock_repo.get_all()
+        for ticker in tickers:
+            self.add_ticker(ticker=ticker.ticker)
 
     def add_ticker(self, ticker: str) -> None:
         """Add ticker to database"""
@@ -79,6 +86,7 @@ class StockPrice():
             raise ServiceException(
                 "Could not retrieve data from Yahoo Finance."
             )
+        time.sleep(2)
         return data
 
     def _is_between(
