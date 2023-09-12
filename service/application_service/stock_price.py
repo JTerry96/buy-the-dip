@@ -7,8 +7,9 @@ from service.exceptions import ServiceException
 from service.models.stock import Stock as StockModel
 import time
 
+
 class StockPrice():
-    """Application service to retrieve stock price"""
+    """Application service to retrieve stock price."""
     def __init__(
         self,
         stock_repo: StockRepo
@@ -24,15 +25,19 @@ class StockPrice():
 
     def add_ticker(self, ticker: str) -> None:
         """Add ticker to database"""
-        stock = self._analyse_data(ticker=ticker)
+        try:
+            stock = self._analyse_data(ticker=ticker)
 
-        if stock_existing := self._check_exists(ticker=ticker):
-            self._stock_repo.delete(stock_existing)
-            self._stock_repo.add(stock)
-        else:
-            self._stock_repo.add(stock)
+            if stock_existing := self._check_exists(ticker=ticker):
+                self._stock_repo.delete(stock_existing)
+                self._stock_repo.add(stock)
+            else:
+                self._stock_repo.add(stock)
 
-        self._stock_repo.commit()
+            self._stock_repo.commit()
+
+        except Exception as error:
+            raise ServiceException(error)
 
     def _analyse_data(self, ticker: str) -> Stock:
         """Analyse stock price data and return a dataset including the last
@@ -60,7 +65,7 @@ class StockPrice():
                 time_since = data[-1]['DateTime']-point['DateTime']
                 last_low = point['DateTime']
                 last_low_price = point['Close']
-        
+
         return Stock(
             ticker=ticker,
             current_price=round(

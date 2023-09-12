@@ -1,8 +1,5 @@
-from flask import Blueprint, render_template, flash
-from service import db
+from flask import Blueprint, render_template, flash, redirect, url_for
 from service.models.forms import InputForm
-from utilities.tasks import add_ticker_async
-
 from service.application_service import get_stock_service
 
 
@@ -12,7 +9,8 @@ stock_blueprint = Blueprint(
     template_folder='templates'
 )
 
-@stock_blueprint.route('/get-stock-price', methods = ['GET', 'POST'])
+
+@stock_blueprint.route('/get-stock-price', methods=['GET', 'POST'])
 def get_stock_price():
     """Get stock price"""
     form = InputForm()
@@ -24,21 +22,35 @@ def get_stock_price():
             ticker = form.input_one.data.upper()
             stock.add_ticker(ticker=ticker)
             data = stock.get_all()
+            flash(f"Added ticker: {ticker} successfully.", "success")
 
         except Exception as error:
             flash(f"Error: {error}", "danger")
             return render_template("stock.html", form=form, data=data)
     return render_template("stock.html", form=form, data=data)
 
-@stock_blueprint.route('/update/<string:ticker>', methods = ['GET', 'POST'])
-def update_stock_price(ticker):
-    """Get stock price"""
-    add_ticker_async(ticker=ticker)
-    return render_template("update.html")
 
-
-@stock_blueprint.route('/update', methods = ['GET', 'POST'])
+@stock_blueprint.route('/update', methods=['GET', 'POST'])
 def update_tickers():
     """Update tickers"""
-    stock = get_stock_service()
-    stock.update_yfinance_ticker_data()
+    try:
+        stock = get_stock_service()
+        stock.update_yfinance_ticker_data()
+
+        response_body = {
+            "type": "success",
+            "status": "success",
+            "message": "Successfully updated all tickers."
+        }
+
+    except Exception as error:
+        error_message = str(error)
+        response_body = {
+            "type": "danger",
+            "status": "error",
+            "message": error_message,
+            "text": error_message
+        }
+
+    flash(response_body["message"], response_body["type"])
+    return redirect(url_for("stock.get_stock_price"))
