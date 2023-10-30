@@ -11,3 +11,4 @@ class Stock(db.Model):
     last_low = db.Column(db.Date)
     time_since = db.Column(db.Interval)
     percentage_of_ath = db.Column(db.Float)
+    historic_data = db.Column(db.String)

@@ -11,3 +11,4 @@ class Stock():
     current_price: float
     last_low: datetime.date
     percentage_of_ath: float
+    historic_data: str

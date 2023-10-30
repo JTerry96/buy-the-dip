@@ -47,7 +47,9 @@ class StockPrice():
             Stock: Stock Model
         """
         data = self._get_price(ticker=ticker)
+
         data['DateTime'] = data.index
+        data['DateTimeString'] = list(map(str, data.index))
 
         data = data.to_dict('records')
 
@@ -66,6 +68,9 @@ class StockPrice():
                 last_low = point['DateTime']
                 last_low_price = point['Close']
 
+        for dict in data:
+            dict.pop('DateTime')
+
         return Stock(
             ticker=ticker,
             current_price=round(
@@ -77,7 +82,8 @@ class StockPrice():
             percentage_of_ath=self._percentage_of_ath(
                 current_price=current_price,
                 all_time_high=all_time_high
-            )
+            ),
+            historic_data=str(data)
         )
 
     def _get_price(self, ticker: str):

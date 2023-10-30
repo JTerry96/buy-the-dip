@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block head %}
+<script type="text/javascript" src="{{ url_for('static', filename='js/plotly.min.js') }}"></script>
+{% endblock %}
+{% block content %}
+    <div id="plotly-graph-bulk-speed"></div>
+    <script>
+    var graph_bulk_speed = {{ graph_bulk_speed | safe }};
+    Plotly.newPlot("plotly-graph-bulk-speed", graph_bulk_speed);
+    </script>
+{% endblock %}
