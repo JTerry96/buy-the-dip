@@ -61,7 +61,7 @@ def update_tickers():
 
 @stock_blueprint.route('/view-ticker-data/<string:ticker>', methods=['GET', 'POST'])
 def view_ticker_data(ticker):
-    """View ticker data"""
+    """View ticker the data."""
     stock = get_stock_service()
     data = stock._stock_repo.get_by_ticker(ticker=ticker)
 
