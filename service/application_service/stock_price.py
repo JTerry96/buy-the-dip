@@ -58,11 +58,11 @@ class StockPrice():
         current_price = data[-1]['Close']
         all_time_high = max([point['Close'] for point in data])
 
-        for point in data[0:int(len(data) - 10)]:
+        for point in data:
             if self._is_between(
-                current_price,
-                point['Close'],
-                last_low_price
+                value=current_price,
+                first_range_value=point['Close'],
+                second_range_value=last_low_price
             ):
                 time_since = data[-1]['DateTime']-point['DateTime']
                 last_low = point['DateTime']
@@ -77,8 +77,8 @@ class StockPrice():
                 number=current_price,
                 ndigits=2
             ),
-            time_since=time_since,
-            last_low=last_low,
+            time_since=time_since ,
+            last_low=last_low if last_low else None,
             percentage_of_ath=self._percentage_of_ath(
                 current_price=current_price,
                 all_time_high=all_time_high
