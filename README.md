@@ -27,3 +27,7 @@ SETUP
     POSTGRES_DB =  ""
 2. Run 'make upgrade' to run migrations.
 3. Run 'make run' to run the project. (You should be able to access the project on http://127.0.0.1:80)
+
+![Screenshot 2024-03-07 at 11 19 18](https://github.com/JTerry96/buy-the-dip/assets/42044307/c6da96e4-2573-432c-b653-7dc00da42389)
+
+
