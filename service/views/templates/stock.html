@@ -2,44 +2,49 @@
 
 {% block content %}
 
-  <div>
-    <div class="container my-container w-25">
-        <h3>Add Stock</h3>
-        <form method="POST">
-            {{ form.hidden_tag() }}
-            <div class="row">
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        {{ form.input_one.label }}
-                        <br>
-                        {{ form.input_one(class="form-control") }}
+    <div>
+        <div class="container my-container w-25">
+            <h3>Add Stock</h3>
+            <form method="POST">
+                {{ form.hidden_tag() }}
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            {{ form.input_one.label }}
+                            <br>
+                            {{ form.input_one(class="form-control") }}
+                        </div>
                     </div>
                 </div>
-            </div>
-            <button type="submit" class="btn btn-primary">Add</button>
-        </form>
+                <button type="submit" class="btn btn-primary">Add</button>
+            </form>
+        </div>
     </div>
-  </div>
-  <div class="container w-50">
-    <table class="table table-borderless my-table table-sm">
-        <thead>
-            <tr>
-                <th>Ticker</th>
-                <th>Current Price</th>
-                <th>Percentage of ATH</th>
-                <th>Hasn't been this low in ...</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for stock in data %}
-            <tr>
-                <td>{{ stock.ticker }}</td>
-                <td>{{ stock.current_price }}</td>
-                <td>{{ stock.percentage_of_ath }}</td>
-                <td>{{ stock.time_since }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-  </div>
+
+    <div class="container w-50">
+        <table class="table table-borderless my-table table-sm">
+            <thead>
+                <tr>
+                    <th>Ticker</th>
+                    <th>Current Price</th>
+                    <th>Percentage of ATH</th>
+                    <th>Hasn't been this low in ...</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for stock in data %}
+                <tr>
+                    <td>
+                        <a href="{{ url_for('stock.view_ticker_data', ticker=stock.ticker) }}">
+                            {{ stock.ticker }}
+                        </a>
+                    </td>
+                    <td>{{ stock.current_price }}</td>
+                    <td>{{ stock.percentage_of_ath }}</td>
+                    <td>{{ stock.time_since }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

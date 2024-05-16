@@ -16,9 +16,17 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="navbar-nav">
               <a class="nav-item nav-link" href="{{ url_for('index') }}">Home</a>
-              <a class="nav-item nav-link" href="{{ url_for('stock.get_stock_price') }}">Stock</a>
+              <div class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Stock
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="{{ url_for('stock.get_stock_price') }}">Add</a>
+                  <a class="dropdown-item" href="{{ url_for('stock.stock_screener') }}">Screen</a>
+                </div>
+              </div>
             </div>
-        </nav>
+          </nav>
 
         <div class="alerts-container">
             {% with messages = get_flashed_messages(with_categories=true) %}
