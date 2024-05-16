@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, flash, redirect, url_for
-from service.models.forms import InputForm
+from service.models.forms import InputForm, FilterForm
 from service.application_service import get_stock_service
 import plotly.graph_objs as go
 from utilities.data_convert import DictConverter
@@ -83,3 +83,25 @@ def view_ticker_data(ticker):
         "individual_stock.html",
         graph_bulk_speed=stuff
     )
+
+@stock_blueprint.route('/stock-screener', methods=['GET', 'POST'])
+def stock_screener():
+    """Screen stocks"""
+    form = FilterForm()
+    stock = get_stock_service()
+    data = stock.get_all()
+
+    if form.validate_on_submit():
+        low = form.ath_low.data
+        high = form.ath_high.data
+        try:
+            data = stock.get_by_all_time_high(
+                low=low,
+                high=high
+            )
+            flash(f"Now displaying all stocks with a current ATH (All Time High) percentage from {low}% to {high}%.", "success")
+
+        except Exception as error:
+            flash(f"Error: {error}", "danger")
+            return render_template("filter.html", form=form, data=data)
+    return render_template("filter.html", form=form, data=data)

@@ -125,6 +125,22 @@ class StockPrice():
             } for stock in stocks
         ]
 
+    def get_by_all_time_high(self, low: float, high: float) -> Stock:
+        """Get stock price info from database"""
+        stocks = self._stock_repo.get_by_all_time_high(
+            low=low,
+            high=high
+        )
+        return [
+            {
+                'ticker': stock.ticker,
+                'current_price': stock.current_price,
+                'time_since': stock.time_since,
+                'last_low': stock.last_low,
+                'percentage_of_ath': stock.percentage_of_ath
+            } for stock in stocks
+        ]
+
     def _check_exists(self, ticker: str):
         """Check if ticker exists in database"""
         return self._stock_repo.get_by_ticker(ticker=ticker)
