@@ -22,12 +22,17 @@ class YfCsvReader():
 
     def extract_symbols(csv_file) -> list[str]:
         """Extracts the symbols from the Yfinance portfolio CSV file."""
-        csv_file = request.files['csv_file']
-        symbols = []
 
-        if csv_file.filename != '':
-            with io.TextIOWrapper(csv_file.stream) as csvfile:
-                df = pd.read_csv(csvfile)
-                symbols = df['Symbol'].tolist()
+        try:
+            csv_file = request.files['csv_file']
+            symbols = []
 
-            return symbols
+            if csv_file.filename != '':
+                with io.TextIOWrapper(csv_file.stream) as csvfile:
+                    df = pd.read_csv(csvfile)
+                    symbols = df['Symbol'].tolist()
+
+        except Exception:
+            symbols = []
+
+        return symbols
