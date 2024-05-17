@@ -30,4 +30,6 @@ body {
     border: 0;
 }
 
-
+.upload-form {
+  margin: 15px;
+}

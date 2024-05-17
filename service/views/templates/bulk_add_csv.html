@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container my-container w-25">
+        <h3>Upload CSV File</h3>
+            <form method="POST" enctype="multipart/form-data" action="/bulk-add-csv" class="upload-form">
+                <input type="file" name="csv_file" class="upload-form">
+                <button type="submit" class="upload-form">Upload</button>
+            </form>
+    </div>
+{% endblock %}
