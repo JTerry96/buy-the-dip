@@ -4,23 +4,27 @@
 
     <div>
         <div class="container my-container w-25">
-            <h3>Add Stock</h3>
+            <h3>Filter</h3>
             <form method="POST">
                 {{ form.hidden_tag() }}
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
-                            {{ form.input_one.label }}
-                            <br>
-                            {{ form.input_one(class="form-control") }}
+                            {{ form.ath_low.label }}
+                            {{ form.ath_low(class="form-control") }}
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            {{ form.ath_high.label }}
+                            {{ form.ath_high(class="form-control") }}
                         </div>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Add</button>
+                <button type="submit" class="btn btn-primary">Filter</button>
             </form>
         </div>
     </div>
-
     <div class="container w-50">
         <table class="table table-borderless my-table table-sm">
             <thead>
