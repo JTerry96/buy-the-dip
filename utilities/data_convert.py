@@ -1,4 +1,7 @@
 """Data handling class."""
+from flask import request
+import pandas as pd
+import io
 
 class DictConverter():
     """Works with dictionaries and lists and converts between them."""
@@ -11,3 +14,17 @@ class DictConverter():
                     dict_list[key] = []
                 dict_list[key].append(value)
         return dict_list  
+
+class YfCsvReader():
+    """Takes a Yahoo Finance portfolio CSV file and manipulates the data."""
+
+    def extract_symbols(csv_file) -> list[str]:
+        """Extracts the symbols from the Yfinance portfolio CSV file."""
+        csv_file = request.files['csv_file']
+
+        if csv_file.filename != '':
+            with io.TextIOWrapper(csv_file.stream) as csvfile:
+                df = pd.read_csv(csvfile)
+                symbols = df['Symbol'].tolist() 
+
+            return symbols
