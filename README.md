@@ -1,6 +1,8 @@
 # buy-the-dip
 Tracker of all things stonky.
 
+Live production version - https://buy-the-dip-czx4.onrender.com
+
 Vision
 
 Do you have stock FOMO?
